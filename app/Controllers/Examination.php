@@ -1,27 +1,27 @@
 <?php
 
 /**
- *
+ * Контроллер проверок надзорными органами предприятия
  */
 
 namespace App\Controllers;
 
 use CodeIgniter\Exceptions\PageNotFoundException;
 
-class Pages extends BaseController
+class Examination extends BaseController
 {
     /**
      *
      */
     public function index(): string
     {
-        return view('welcome_message');
+        return view('examination_list');
     }
 
     /**
      *
      */
-    public function view(string $page = 'home'): string
+    /*public function view(string $page = 'home'): string
     {
         if (! is_file(APPPATH . 'Views/pages/' . $page . '.php')) {
             // Whoops, we don't have a page for that!
@@ -33,5 +33,5 @@ class Pages extends BaseController
         return view('header', $data)
             . view('pages/' . $page)
             . view('footer');
-    }
+    }*/
 }
