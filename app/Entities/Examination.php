@@ -12,5 +12,9 @@
 
   class Examination extends Entity
   {
-      // ...
+      protected $casts = [
+          'duration' => 'integer',
+          'from' => 'datetime',
+          'to' => 'datetime'
+      ];
   }
