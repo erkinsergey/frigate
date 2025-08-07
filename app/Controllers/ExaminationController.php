@@ -29,7 +29,7 @@
           $postData = $this->request->getJSON(true);
 
           return $this->response->setJSON(
-              $examinationModel->findAll()
+              $examinationModel->findExaminations()
           );
       }
 
