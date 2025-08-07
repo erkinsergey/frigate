@@ -16,12 +16,31 @@
 </header>
 
 <!-- CONTENT -->
-<div class="container mt-5">
+<div class="container mt-4">
     <h1 class="mb-4">Перечень плановых проверок</h1>
 
     <!-- Форма поиска -->
-    <div class="container mt-5">
+    <div class="container mb-4">
         <div class="row justify-content-center">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="sbsubject" class="form-label">Проверяемый СМП</label>
+                            <input type="text" class="form-control" id="sbsubject">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="supervisor" class="form-label">Контролирующий орган</label>
+                            <input type="text" class="form-control" id="supervisor" required>
+                        </div>
+                        <div class="grid gap-2">
+                            <button type="submit" class="btn btn-primary">Найти</button>
+                            <button type="reset" class="btn btn-outline-secondary">Очистить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div class="card">
                 <table class="table table-hover" id="myTable">
                     <thead>
