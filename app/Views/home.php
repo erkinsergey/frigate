@@ -8,6 +8,7 @@
     <link rel="shortcut icon" type="image/png" href="/favicon.ico">
     <!-- Bootstrap CSS -->
     <link href="<?= base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/css/bootstrap-icons.min.css') ?>" rel="stylesheet">
 </head>
 <body>
 
@@ -32,7 +33,7 @@
 
                         <div class="mb-3">
                             <label for="supervisor" class="form-label">Контролирующий орган</label>
-                            <input type="text" class="form-control" id="supervisor" required>
+                            <input type="text" class="form-control" id="supervisor">
                         </div>
                         <div class="grid gap-2">
                             <button type="submit" class="btn btn-primary">Найти</button>
@@ -41,7 +42,24 @@
                     </form>
                 </div>
             </div>
-            <div class="card">
+
+            <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar">
+                <div class="input-group" role="group" aria-label="First group">
+                    <button type="button" class="btn btn-outline-secondary me-2">Добавить</button>
+                    <button type="button" class="btn btn-outline-secondary me-2">Редактировать</button>
+                    <button type="button" class="btn btn-danger">Удалить</button>
+                </div>
+                <div class="btn-group me-2" role="group" aria-label="First group">
+                    <button type="button" class="btn btn-secondary" title="Экпортировать список в Excel">
+                        <i class="bi bi-file-earmark-arrow-down"></i>
+                    </button>
+                    <button type="button" class="btn btn-secondary" title="Импортировать список из Excel">
+                        <i class="bi bi-file-earmark-arrow-up"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card mt-3">
                 <table class="table table-hover" id="myTable">
                     <thead>
                         <tr>
