@@ -46,8 +46,8 @@
             <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar">
                 <div class="input-group" role="group" aria-label="First group">
                     <button type="button" class="btn btn-outline-secondary me-2">Добавить</button>
-                    <button type="button" class="btn btn-outline-secondary me-2">Редактировать</button>
-                    <button type="button" class="btn btn-danger">Удалить</button>
+                    <button type="button" disabled class="btn btn-outline-secondary me-2">Редактировать</button>
+                    <button type="button" disabled class="btn btn-danger">Удалить</button>
                 </div>
                 <div class="btn-group me-2" role="group" aria-label="First group">
                     <button type="button" class="btn btn-secondary" title="Экпортировать список в Excel">
