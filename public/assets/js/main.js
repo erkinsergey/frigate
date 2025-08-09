@@ -2,12 +2,29 @@
 
 async function init(params) {
     const {
-        tableId
+        tableId,
+        sbSubjectSearchId,
+        supervisorSearchId
     } = params;
 
     const myTable = MyTable({
         $el: $(`#${tableId}`)
     });
+
+    $(`#${sbSubjectSearchId}`).autoComplete({
+        bootstrapVersion: '4',
+        resolverSettings: {
+            url: 'sbsubjects/list.json'
+        }
+    });
+
+    $(`#${supervisorSearchId}`).autoComplete({
+        bootstrapVersion: '4',
+        resolverSettings: {
+            url: 'supervisors/list.json'
+        }
+    });
+
 
     myTable.update(await getExaminations());
 }
@@ -55,7 +72,7 @@ async function getExaminations ()
 {
     try {
         const responce = await fetch(
-            'search_examinations',
+            'examinations/search',
             {
                 method: "POST",
                 headers: {

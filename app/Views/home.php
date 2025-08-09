@@ -28,12 +28,12 @@
                     <form>
                         <div class="mb-3">
                             <label for="sbsubject" class="form-label">Проверяемый СМП</label>
-                            <input type="text" class="form-control" id="sbsubject">
+                            <input type="text" class="form-control" id="sbsubject_search" autocomplete="off">
                         </div>
 
                         <div class="mb-3">
                             <label for="supervisor" class="form-label">Контролирующий орган</label>
-                            <input type="text" class="form-control" id="supervisor">
+                            <input type="text" class="form-control" id="supervisor_search" autocomplete="off">
                         </div>
                         <div class="grid gap-2">
                             <button type="submit" class="btn btn-primary">Найти</button>
@@ -89,11 +89,14 @@
 <script src="<?= base_url('assets/js/jquery-3.7.1.min.js') ?>"></script>
 <!-- Bootstrap JS Bundle (Popper + JS) -->
 <script src="<?= base_url('assets/js/bootstrap.bundle.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/bootstrap-autocomplete.min.js') ?>"></script>
 <script src="<?= base_url('assets/js/main.js') ?>"></script>
 
 <script {csp-script-nonce}>
     init({
         tableId: 'myTable',
+        sbSubjectSearchId: 'sbsubject_search',
+        supervisorSearchId: 'supervisor_search'
     });
 </script>
 

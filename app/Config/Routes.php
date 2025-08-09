@@ -1,11 +1,12 @@
 <?php
 
-use CodeIgniter\Router\RouteCollection;
-use App\Controllers\{HomeController, ExaminationController};
+use App\Controllers\{
+    HomeController,
+    ExaminationController,
+    SmallBusinessSubjectController
+};
 
-/**
- * @var RouteCollection $routes
- */
-$routes->get('/', 'HomeController::index');
-$routes->post('/search_examinations', 'ExaminationController::search');
-//~ $routes->get('(:segment)', [Pages::class, 'view']);*/
+$routes
+    ->get('/', [HomeController::class, 'index'])
+    ->get('/sbsubjects/list.json', [SmallBusinessSubjectController::class, 'list'])
+    ->post('/examinations/search', [ExaminationController::class, 'search']);
