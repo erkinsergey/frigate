@@ -25,10 +25,10 @@
         <div class="row justify-content-center">
             <div class="card mb-5">
                 <div class="card-body">
-                    <form id="search_form">
+                    <form id="searchForm">
                         <div class="mb-3">
                             <label for="sbsubject" class="form-label">Проверяемый СМП</label>
-                            <input type="text" name="sbsubject" class="form-control bsubject-search" autocomplete="off", spellcheck="false">
+                            <input type="text" name="sbsubject" class="form-control bsubject-search" autocomplete="off" spellcheck="false">
                         </div>
 
                         <div class="mb-3">
@@ -45,9 +45,25 @@
 
             <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar">
                 <div class="input-group" role="group" aria-label="First group">
-                    <button type="button" class="btn btn-outline-secondary me-2">Добавить</button>
-                    <button type="button" disabled class="btn btn-outline-secondary me-2">Редактировать</button>
-                    <button type="button" disabled class="btn btn-danger">Удалить</button>
+                    <button
+                        type="button"
+                        class="btn btn-outline-secondary me-2"
+                        data-bs-toggle="modal"
+                        data-bs-target="#createModal"
+                        title="Добавить проверку"
+                    >Добавить</button>
+                    <button
+                        type="button"
+                        disabled
+                        class="btn btn-outline-secondary me-2"
+                        title="Редактировать проверку"
+                    >Редактировать</button>
+                    <button
+                        type="button"
+                        disabled
+                        class="btn btn-danger"
+                        title="Удалить проверку"
+                    >Удалить</button>
                 </div>
                 <div class="btn-group me-2" role="group" aria-label="First group">
                     <button type="button" class="btn btn-secondary" title="Экпортировать список в Excel">
@@ -74,13 +90,59 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="d-flex justify-content-center">
+                <div
+                        class="border rounded"
+                        data-coreui-locale="en-US"
+                        data-coreui-start-date="2024/02/13"
+                        data-coreui-toggle="calendar"
+                ></div>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Результаты поиска -->
-
+<!-- Форма создания проверки -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Добавить проверку</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="newSbsubjectName" class="col-form-label">Проверяемый СМП:</label>
+                        <input type="text" class="form-control" id="newSbsubjectName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newSupervisorName" class="col-form-label">Контролирующий орган:</label>
+                        <input type="text" class="form-control" id="newSupervisorName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPeriodFrom" class="col-form-label">Плановый период:</label>
+                        <div class="col">
+                            с:&nbsp;<input type="date" class="orm-control" id="newPeriodFrom">&nbsp;&nbsp;
+                            по:&nbsp;<input type="date" class="orm-control" id="newPeriodTo">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPlannedDuration" class="col-form-label">Плановая длительность:</label>
+                        <div class="col-5">
+                            <input type="number" class="form-control" id="newPlannedDuration" value="3">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary">Добавить</button>
+            </div>
+        </div>
+    </div>
 </div>
-<!-- FOOTER: DEBUG INFO + COPYRIGHTS -->
 
 <footer>
 </footer>
@@ -95,7 +157,7 @@
 <script {csp-script-nonce}>
     init({
         tableId: 'myTable',
-        searchFormId: 'search_form'
+        searchFormId: 'searchForm'
     });
 </script>
 
