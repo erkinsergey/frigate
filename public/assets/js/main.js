@@ -1,38 +1,32 @@
 'use strict';
 
+/**
+ * Точка входа - инициализация
+ */
 async function init(params) {
     const {
         tableId,
         sbSubjectSearchId,
-        supervisorSearchId
+        supervisorSearchId,
+        searchFormId
     } = params;
 
-    const myTable = MyTable({
+    const myTable = ExaminationsList({
         $el: $(`#${tableId}`)
     });
 
-    $(`#${sbSubjectSearchId}`).autoComplete({
-        bootstrapVersion: '4',
-        resolverSettings: {
-            url: 'sbsubjects/list.json'
+    SearchForm({
+        $form: $(`#${searchFormId}`),
+        async onSubmit(fields) {
+               myTable.update(await getExaminations(fields));
         }
     });
-
-    $(`#${supervisorSearchId}`).autoComplete({
-        bootstrapVersion: '4',
-        resolverSettings: {
-            url: 'supervisors/list.json'
-        }
-    });
-
-
-    myTable.update(await getExaminations());
 }
 
 /**
- *
+ * Список (таблица) проверок - объектная обертка
  */
-function MyTable(params)
+function ExaminationsList(params)
 {
     const {
         $el
@@ -47,7 +41,7 @@ function MyTable(params)
     return wrapper;
 
     /**
-     *
+     * Метод обновления данных
      */
     function update(list)
     {
@@ -66,12 +60,58 @@ function MyTable(params)
 }
 
 /**
- *
+ * Форма поиска - объектная обертка
  */
-async function getExaminations ()
+function SearchForm(params)
+{
+    const {
+        $form,
+        onSubmit
+    } = params;
+
+    const submitHandler = ('function' === typeof onSubmit) ? onSubmit : function (){};
+
+    $('.bsubject-search', $form).autoComplete({
+        bootstrapVersion: '4',
+        noResultsText: 'Нет данных',
+        resolverSettings: {
+            url: 'sbsubjects/search',
+        },
+        formatResult: item => ({ value: item.id, text: item.name }),
+        preventEnter: true
+    });
+
+    $('.supervisor-search', $form).autoComplete({
+        bootstrapVersion: '4',
+        noResultsText: 'Нет данных',
+        resolverSettings: {
+            url: 'supervisors/search'
+        },
+        formatResult: item => ({ value: item.id, text: item.name }),
+        preventEnter: true,
+    });
+
+    $form.on('submit', function (e) {
+        e.preventDefault();
+
+        submitHandler(
+            $form
+                .serializeArray()
+                .reduce(
+                    (result, param) => ({ ...result, [param.name]: param.value.trim() }),
+                    {}
+                )
+        );
+    });
+}
+
+/**
+ * Асинхронная функция поиска проверок по заданным параметрам
+ */
+async function getExaminations (params)
 {
     try {
-        const responce = await fetch(
+        const response = await fetch(
             'examinations/search',
             {
                 method: "POST",
@@ -79,12 +119,14 @@ async function getExaminations ()
                     'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: JSON.stringify({}),
+                body: JSON.stringify(params)
             }
         );
 
-        return await responce.json();
+        return await response.json();
     } catch (e) {
         console.error(e);
+
+        return [];
     }
 }

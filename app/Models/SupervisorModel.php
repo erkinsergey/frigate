@@ -1,7 +1,7 @@
 <?php
     
     /**
-     * Модель субъектов малого предпринимательства (СМП)
+     * Модель контролирующего органа (КО)
      */
     
     declare(strict_types=1);
@@ -10,9 +10,9 @@
     
     use CodeIgniter\Model;
     
-    class SmallBusinessSubjectModel extends Model
+    class SupervisorModel extends Model
     {
-        protected $table = 'small_business_subjects';
+        protected $table = 'supervisors';
         
         /**
          *

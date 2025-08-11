@@ -15,7 +15,7 @@
       use ResponseTrait;
 
       /**
-       *
+       * Поиск проверок с фильтрацией по некоторым полям
        */
       public function search()
       {
@@ -27,9 +27,20 @@
           $examinationModel = model('ExaminationModel');
 
           $postData = $this->request->getJSON(true);
+          
+          $params = [
+              'smallBusinessSubject' => [
+                  'value' => trim($postData['sbsubject'] ?? ''),
+                  'isUsed' => ('' === trim($postData['sbsubject'] ?? '')) ? false : true
+              ],
+              'supervisor' => [
+                  'value' => trim($postData['supervisor'] ?? ''),
+                  'isUsed' => ('' === trim($postData['supervisor'] ?? '')) ? false : true
+              ]
+          ];
 
           return $this->response->setJSON(
-              $examinationModel->findExaminations()
+              $examinationModel->search($params)
           );
       }
 

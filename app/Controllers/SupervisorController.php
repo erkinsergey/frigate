@@ -10,13 +10,27 @@
     
     class SupervisorController extends BaseController
     {
-        use CodeIgniter\API\ResponseTrait;
+        use \CodeIgniter\API\ResponseTrait;
         
         /**
-         *
+         * Поиск
          */
-        public function list(): string
+        public function search()
         {
-            return view('home');
+            $data = [
+                'name' => trim($this->request->getPostGet('q') ?? '')
+            ];
+            
+            $rule = [
+                'name' => 'required|min_length[3]|max_length[255]'
+            ];
+            
+            $model = model('SupervisorModel');
+            
+            return $this->response->setJSON(
+                $this->validateData($data, $rule)
+                    ? $model->searchByName($data['name'])
+                    : []
+            );
         }
     }

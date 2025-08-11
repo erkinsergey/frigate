@@ -25,15 +25,15 @@
         <div class="row justify-content-center">
             <div class="card mb-5">
                 <div class="card-body">
-                    <form>
+                    <form id="search_form">
                         <div class="mb-3">
                             <label for="sbsubject" class="form-label">Проверяемый СМП</label>
-                            <input type="text" class="form-control" id="sbsubject_search" autocomplete="off">
+                            <input type="text" name="sbsubject" class="form-control bsubject-search" autocomplete="off", spellcheck="false">
                         </div>
 
                         <div class="mb-3">
                             <label for="supervisor" class="form-label">Контролирующий орган</label>
-                            <input type="text" class="form-control" id="supervisor_search" autocomplete="off">
+                            <input type="text" name="supervisor" class="form-control supervisor-search" autocomplete="off" spellcheck="false">
                         </div>
                         <div class="grid gap-2">
                             <button type="submit" class="btn btn-primary">Найти</button>
@@ -95,8 +95,7 @@
 <script {csp-script-nonce}>
     init({
         tableId: 'myTable',
-        sbSubjectSearchId: 'sbsubject_search',
-        supervisorSearchId: 'supervisor_search'
+        searchFormId: 'search_form'
     });
 </script>
 

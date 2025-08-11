@@ -15,15 +15,22 @@
       protected $table = 'examinations_view';
 
       /**
-       *
+       * Ищет проверки в специальном сводном представлении examinations_view,
+       * форматирует результат в удобный для представления вид.
        */
-      public function findExaminations(): array
+      public function search(array $params): array
       {
-          $result = $this->db->query('
-            SELECT *
-              FROM "examinations_view"
-          ');
-
+          if ($params['smallBusinessSubject']['isUsed']) {
+              $this->like($field = 'LOWER(subject_name)', mb_strtolower($params['smallBusinessSubject']['value']), $side = 'both', $escape = true);
+          }
+          
+          if ($params['supervisor']['isUsed']) {
+              $this->like($field = 'LOWER(supervisor_name)', mb_strtolower($params['supervisor']['value']), $side = 'both', $escape = true);
+          }
+          
+          /**
+           * Преобразует "плоский" результат в удобочитаемый
+           */
           return
               array_map(
                   fn (array $rawRecord) => [
@@ -40,10 +47,7 @@
                           'name' => $rawRecord['subject_name']
                       ]
                   ],
-                  $result->getResultArray()
+                  $this->findAll()
               );
       }
-
-      //protected $returnType = \App\Entities\Examination::class;
-      //protected $useTimestamps = true;
   }
