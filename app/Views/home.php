@@ -28,12 +28,22 @@
                     <form id="searchForm">
                         <div class="mb-3">
                             <label for="sbsubject" class="form-label">Проверяемый СМП</label>
-                            <input type="text" name="sbsubject" class="form-control bsubject-search" autocomplete="off" spellcheck="false">
+                            <input
+                                type="text"
+                                name="sbsubject"
+                                class="form-control bsubject-search"
+                                autocomplete="off"
+                                spellcheck="false">
                         </div>
 
                         <div class="mb-3">
                             <label for="supervisor" class="form-label">Контролирующий орган</label>
-                            <input type="text" name="supervisor" class="form-control supervisor-search" autocomplete="off" spellcheck="false">
+                            <input
+                                type="text"
+                                name="supervisor"
+                                class="form-control supervisor-search"
+                                autocomplete="off"
+                                spellcheck="false">
                         </div>
                         <div class="grid gap-2">
                             <button type="submit" class="btn btn-primary">Найти</button>
@@ -112,33 +122,47 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="newForm">
                     <div class="mb-3">
                         <label for="newSbsubjectName" class="col-form-label">Проверяемый СМП:</label>
-                        <input type="text" class="form-control" id="newSbsubjectName">
+                        <input
+                            type="text"
+                            autocomplete="off"
+                            spellcheck="false"
+                            required
+                            class="form-control bsubject-search"
+                            name="sbsubject"
+                            id="newSbsubjectName">
                     </div>
                     <div class="mb-3">
                         <label for="newSupervisorName" class="col-form-label">Контролирующий орган:</label>
-                        <input type="text" class="form-control" id="newSupervisorName">
+                        <input
+                            type="text"
+                            required
+                            autocomplete="off"
+                            spellcheck="false"
+                            class="form-control supervisor-search"
+                            name="supervisor"
+                            id="newSupervisorName">
                     </div>
                     <div class="mb-3">
                         <label for="newPeriodFrom" class="col-form-label">Плановый период:</label>
                         <div class="col">
-                            с:&nbsp;<input type="date" class="orm-control" id="newPeriodFrom">&nbsp;&nbsp;
-                            по:&nbsp;<input type="date" class="orm-control" id="newPeriodTo">
+                            с:&nbsp;<input type="date" required name="from" class="orm-control" id="newPeriodFrom">&nbsp;&nbsp;
+                            по:&nbsp;<input type="date" required name="to" class="orm-control" id="newPeriodTo">
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="newPlannedDuration" class="col-form-label">Плановая длительность:</label>
                         <div class="col-5">
-                            <input type="number" class="form-control" id="newPlannedDuration" value="3">
+                            <input type="number" required name="duration" class="form-control" id="newPlannedDuration" value="3">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-primary">Добавить</button>
+                <button type="reset" form="newForm" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="submit" form="newForm" class="btn btn-primary">Добавить</button>
             </div>
         </div>
     </div>
@@ -157,7 +181,8 @@
 <script {csp-script-nonce}>
     init({
         tableId: 'myTable',
-        searchFormId: 'searchForm'
+        searchFormId: 'searchForm',
+        newFormId: 'newForm'
     });
 </script>
 

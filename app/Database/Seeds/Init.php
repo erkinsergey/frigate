@@ -26,6 +26,9 @@ class Init extends Seeder
             ],
             [
                 'name' => 'Природнадзор'
+            ],
+            [
+                'name' => 'Рыбнадзор'
             ]
         ]);
 

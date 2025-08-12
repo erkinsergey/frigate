@@ -8,14 +8,17 @@
     
     namespace App\Controllers;
     
+    use \CodeIgniter\API\ResponseTrait;
+    use \CodeIgniter\HTTP\ResponseInterface;
+    
     class SupervisorController extends BaseController
     {
-        use \CodeIgniter\API\ResponseTrait;
+        use ResponseTrait;
         
         /**
          * Поиск
          */
-        public function search()
+        public function search(): ResponseInterface
         {
             $data = [
                 'name' => trim($this->request->getPostGet('q') ?? '')

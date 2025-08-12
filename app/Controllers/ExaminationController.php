@@ -8,7 +8,8 @@
 
   namespace App\Controllers;
 
-  use CodeIgniter\API\ResponseTrait;
+  use \CodeIgniter\API\ResponseTrait;
+  use \CodeIgniter\HTTP\ResponseInterface;
 
   class ExaminationController extends BaseController
   {
@@ -17,7 +18,7 @@
       /**
        * Поиск проверок с фильтрацией по некоторым полям
        */
-      public function search()
+      public function search(): ResponseInterface
       {
           // Должен быть только метод POST
           if (!$this->request->is('post')) {
@@ -26,7 +27,7 @@
 
           $examinationModel = model('ExaminationModel');
 
-          $postData = $this->request->getJSON(true);
+          $postData = $this->request->getJSON($assoc = true);
           
           $params = [
               'smallBusinessSubject' => [
@@ -43,5 +44,33 @@
               $examinationModel->search($params)
           );
       }
-
+      
+      /**
+       * Создание проверки
+       */
+      public function create(): ResponseInterface
+      {
+          // Должен быть только метод POST
+          if (!$this->request->is('post')) {
+              return $this->failForbidden('Forbidden');
+          }
+          
+          $data = $this->request->getJSON($assoc = true);
+          $rules = [
+              'sbsubject' => 'required|max_length[255]',
+              'supervisor' => 'required|max_length[255]',
+              'from' => 'required|valid_date',
+              'to' => 'required|valid_date',
+              'duration' => 'required|integer'
+          ];
+          
+          if (!$this->validateData($data, $rules)) {
+              return $this->failValidationErrors($this->validator->getErrors());
+          }
+          
+          return $this->response->setJSON(
+              // TODO: ExaminationModel->create($data)
+              $data
+          );
+      }
   }
