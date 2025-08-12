@@ -12,4 +12,5 @@ $routes
     ->get('/sbsubjects/search', [SmallBusinessSubjectController::class, 'search'])
     ->get('/supervisors/search', [SupervisorController::class, 'search'])
     ->post('/examinations/search', [ExaminationController::class, 'search'])
+    ->get('/examinations/export', [ExaminationController::class, 'export'])
     ->post('/examinations', [ExaminationController::class, 'create']);

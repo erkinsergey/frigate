@@ -1,68 +1,80 @@
-# CodeIgniter 4 Application Starter
+# Перечень плановых проверок
 
-## What is CodeIgniter?
+## Предметная область
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+В данной задаче выделяются три сущности предметной области:
+- субъект малого бизнеса (СМБ)
+- контролирующий орган (КО)
+- плановая проверка
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+Пусть для простоты СМБ и КО характеризуются только названиями (name), проверка же характеризуется
+СМБ, КО, плановым периодом (даты from, to), плановой длительностью (duration). 
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+> [УТОЧНИТЬ] 
+> Исходя из задания, непонятно, что такое эта длительность и в чем она измеряется - часы, дни?
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+### Ограничения
+Предполагается, что:
+- названия СМБ и КО уникальны в своих контекстах 
+- диапазон дат периода проверок не должен быть слишком велик 
+- дата начала должна предшествовать дате завершения 
+- один и тот же КО не может проверять один и тот же СМБ в одно и то же время более одного раза
 
-## Installation & updates
+Данные ограничения должны проверяться на разных уровнях в том числе в схеме базы данных.
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+## Реализация
+Задание выполнено с использованием PostgreSQL, Codeigniter, JQuery, Bootstrap и их плагинов.
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+Реализована частичная функциональность:
+- миграции, создающие таблицы сущностей и некоторые ограничения предметной области: 
+  - СМБ (small_business_subjects)
+  - КО (supervisors)
+  - проверки (examinations)
+  - сводное представление для удобства получения данных проверок (examinations_view)
+- тестовые данные (seeds)
+- форма поиска проверок по двум полям: именам СМБ и КО
+- список проверок с возможностью выбора элементов
+- форма создания проверки
+- экспорт текущего списка проверок в Excel-файл
+- некоторая адаптивность интерфейса к размеру экрана
 
-## Setup
+Не реализовано, но предполагается к реализации:
+- проверки ограничений предметной области на всех уровнях
+- удаление выбранных проверок
+- импорт данных из Excel-файла
+- валидация и дабавление проверки в базу данных
+- полная адаптивность к размеру экрана - сокрытие или изменение размеров элементов, шрифтов и т.п.
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
 
-## Important Change with index.php
+## Установка и запуск
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+Для установки и запуска выполнить в консоли следующие команды (пример для Linux bash):
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+```
+# Клонировать репозиторий 
+$ git clone https://github.com/erkinsergey/frigate
 
-**Please** read the user guide for a better explanation of how CI4 works!
+# Перейти в каталог проекта
+$ cd frigate
 
-## Repository Management
+# Установить зависимости
+$ composer install
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+# Создать базу данных, настроить подключение: 
+# создать файл .env в корне 
+# или отредактировать app/Config/Database.php, 
+# прописав настройки подключения
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+# Создать структуру базы данных и заполнить тестовыми данными 
+$ php spark migrate && php spark db:seed
 
-## Server Requirements
+# Запустить тестовый сервер
+php spark serve
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+# Открыть в браузере выведенную ссылку, например, http://localhost:8080
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+```
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+## Скриншоты
 
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+В папке screenshots находятся несколько скриншотов - примеров работы приложения.  

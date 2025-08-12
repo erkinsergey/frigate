@@ -3,11 +3,13 @@
 /**
  * Точка входа - инициализация
  */
-async function init(params) {
+async function init(params)
+{
     const {
         tableId,
         searchFormId,
-        newFormId
+        newFormId,
+        exportToExcelBtnId
     } = params;
 
     /**
@@ -39,7 +41,7 @@ async function init(params) {
     /**
      * Список проверок
      */
-    const myTable = ExaminationsList({
+    const list = ExaminationsList({
         $el: $(`#${tableId}`)
     });
 
@@ -49,7 +51,7 @@ async function init(params) {
     Form({
         $el: $(`#${searchFormId}`),
         async onSubmit(fields) {
-            myTable.update(await getExaminations(fields));
+            list.update(await getExaminations(fields));
         }
     });
 
@@ -60,6 +62,19 @@ async function init(params) {
         $el: $(`#${newFormId}`),
         async onSubmit(fields) {
             alert('Создана проверка с данными: ' + JSON.stringify(await createExamination(fields), null, ' '));
+        }
+    });
+
+    /**
+     * Экспорт текущего списка в файл Excel
+     */
+    $(`#${exportToExcelBtnId}`).on('click', () => {
+        const ids = list.getIds();
+
+        if (ids.length) {
+            exportListToExcel(ids);
+        } else {
+            alert('Нечего экспортировать!');
         }
     });
 }
@@ -74,9 +89,11 @@ function ExaminationsList(params)
     } = params;
 
     const $body = $el.find('tbody');
+    let _list = [];
 
     const wrapper = Object.freeze({
-        update
+        update,
+        getIds
     });
 
     return wrapper;
@@ -86,6 +103,8 @@ function ExaminationsList(params)
      */
     function update(list)
     {
+        _list = list;
+
         $body.html(
             list.map(exam => (
                 `<tr>
@@ -97,6 +116,14 @@ function ExaminationsList(params)
                  </tr>`
             ))
         );
+    }
+
+    /**
+     * Возвращает только идентификаторы проверок из текущего списка
+     */
+    function getIds()
+    {
+        return _list.map(({ id }) => id);
     }
 }
 
@@ -171,4 +198,20 @@ async function createExamination(params)
         console.error(e);
         return 'Ошибка создания проверки';
     }
+}
+
+/**
+ * Экспорт списка проверок с заданными идентификаторами в файл Excel,
+ * инициирует загрузку файла браузером.
+ */
+async function exportListToExcel(examinationIds)
+{
+    // Создаем объект параметров
+    const params = new URLSearchParams();
+
+    // Добавляем ID как параметр `ids[]` (подходит для PHP-бэкенда)
+    examinationIds.forEach(id => params.append('ids[]', id));
+
+    // Один из способов загрузки файла
+    location.href = `examinations/export?${params.toString()}`;
 }

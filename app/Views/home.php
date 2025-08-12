@@ -76,10 +76,10 @@
                     >Удалить</button>
                 </div>
                 <div class="btn-group me-2" role="group" aria-label="First group">
-                    <button type="button" class="btn btn-secondary" title="Экпортировать список в Excel">
+                    <button type="button" id="exportToExcel" class="btn btn-secondary" title="Экпортировать список в Excel">
                         <i class="bi bi-file-earmark-arrow-down"></i>
                     </button>
-                    <button type="button" class="btn btn-secondary" title="Импортировать список из Excel">
+                    <button type="button" disabled class="btn btn-secondary" title="Импортировать список из Excel">
                         <i class="bi bi-file-earmark-arrow-up"></i>
                     </button>
                 </div>
@@ -182,7 +182,8 @@
     init({
         tableId: 'myTable',
         searchFormId: 'searchForm',
-        newFormId: 'newForm'
+        newFormId: 'newForm',
+        exportToExcelBtnId: 'exportToExcel'
     });
 </script>
 
